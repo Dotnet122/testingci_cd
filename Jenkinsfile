@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from GitHub repository
+                // Checkout code from the correct GitHub repository
                 git 'https://github.com/Dotnet122/testingci_cd.git'
             }
         }
