@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_CLI_HOME = '/tmp'
+        DOTNET_CLI_HOME = 'C:\\temp'  // Use a valid path for Windows
     }
 
     stages {
@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Restore NuGet packages for the solution
-                    bat 'dotnet restore WebApplication_2/WebApplication_2.sln'
+                    bat 'dotnet restore WebApplication_2.sln'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     // Build the solution in Release mode
-                    bat 'dotnet build WebApplication_2/WebApplication_2.sln -c Release'
+                    bat 'dotnet build WebApplication_2.sln -c Release'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Run unit tests
-                    bat 'dotnet test WebApplication_2/WebApplication_2.sln'
+                    bat 'dotnet test WebApplication_2.sln'
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     // Publish the application to a folder
-                    bat 'dotnet publish WebApplication_2/WebApplication_2.sln -c Release -o ./out'
+                    bat 'dotnet publish WebApplication_2.sln -c Release -o C:\\path\\to\\output\\directory'
                 }
             }
         }
