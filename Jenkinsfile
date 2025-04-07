@@ -1,49 +1,76 @@
 pipeline {
     agent any
 
-    environment {
-        DOTNET_CLI_HOME = 'C:\\temp'  // Use a valid path for Windows
-    }
-
-
     stages {
+        // Stage to check out the repository
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/Dotnet122/testingci_cd.git', branch: 'main'
             }
         }
- 
+
+        // Stage to verify the working directory and list files
+        stage('Verify Directory') {
+            steps {
+                script {
+                    // Print the current directory and list the files in the workspace
+                    bat 'echo Current directory: %cd%'
+                    bat 'dir'  // List files to confirm the solution file is present
+                }
+            }
+        }
+
+        // Stage to restore dependencies
         stage('Restore Dependencies') {
             steps {
                 script {
-                    // Restore NuGet packages for the solution
-                    bat 'dotnet restore WebApplication_2.sln'
+                    // Run the restore command
+                    bat 'dotnet restore WebApplication2.sln'
                 }
             }
         }
+
+        // Optional: Build stage (you can add build steps here if needed)
         stage('Build') {
             steps {
                 script {
-                    // Build the solution in Release mode
-                    bat 'dotnet build WebApplication_2.sln -c Release'
+                    // Example: Build the solution
+                    bat 'dotnet build WebApplication2.sln'
                 }
             }
         }
+
+        // Optional: Test stage (you can add testing steps here if needed)
         stage('Test') {
             steps {
                 script {
-                    // Run unit tests
-                    bat 'dotnet test WebApplication_2.sln'
+                    // Example: Run tests (if applicable)
+                    bat 'dotnet test WebApplication2.sln'
                 }
             }
         }
+
+        // Optional: Publish stage (you can add publishing steps here if needed)
         stage('Publish') {
             steps {
                 script {
-                    // Publish the application to a folder
-                    bat 'dotnet publish WebApplication_2.sln -c Release -o C:\\path\\to\\output\\directory'
+                    // Example: Publish the app (adjust based on your requirements)
+                    bat 'dotnet publish WebApplication2.sln -c Release'
                 }
             }
+        }
+    }
+
+    // Post actions (optional, add any cleanup or notification steps here)
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline succeeded.'
+        }
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }
