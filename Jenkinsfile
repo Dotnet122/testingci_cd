@@ -5,13 +5,14 @@ pipeline {
         DOTNET_CLI_HOME = 'C:\\temp'  // Use a valid path for Windows
     }
 
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from the correct GitHub repository
-                git 'https://github.com/Dotnet122/testingci_cd.git'
+                git url: 'https://github.com/Dotnet122/testingci_cd.git', branch: 'main'
             }
         }
+ 
         stage('Restore Dependencies') {
             steps {
                 script {
